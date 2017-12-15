@@ -58,8 +58,8 @@ Here are the files you should have as part of 'streamDemo.zip:
    number for '8082' below:
 
    Name     |    Protocol | Host IP   |    Host Port  | Guest IP |  Guest Port
------------- | ----------- | --------- | ------------- | --------- | -----------
-  Kafka_REST   |    TCP      | 127.0.0.1 |   8082        |           | 8082
+   ------------ | ----------- | --------- | ------------- | --------- | -----------
+     Kafka_REST   |    TCP      | 127.0.0.1 |   8082        |           | 8082
    
    This will allow you to connect to the Kafka REST gateway from processes that
    are running outside of your MapR Sandbox.
@@ -98,6 +98,7 @@ Here are the files you should have as part of 'streamDemo.zip:
        ```
 
     3. (Optional) Supplemental commands
+
        FYI:  If you want to delete the topic to start over, issue this command:
        ```
        [user01@maprdemo ~]$ maprcli stream topic delete -path /user/user01/iot_stream -topic sensor_data
