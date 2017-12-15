@@ -4,11 +4,14 @@ import json
 import random
 import sys
 import mapr_kafka_rest as mapr_kafka
+import matplotlib as mpl
+mpl.use('WebAgg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib.style as style
-
-
+import requests
+import webbrowser
+from time import sleep
 
 # """
 # Generate some random x,y plot data.
@@ -191,3 +194,17 @@ plt.subplots_adjust(left=0.14, bottom=0.20, right=0.94, top=0.85, wspace=0.50, h
 ani = animation.FuncAnimation(fig, animate, interval=50)
 plt.suptitle('Streaming Data Dashboard');
 plt.show()
+
+ready = False
+dashboard_url = 'http://localhost:8988'
+print('Waiting for dashboard to be ready... Dashboard UI should show up in a new tab of your browser at {url} in 30-60 seconds'.format(url=dashboard_url))
+while not ready:
+    try:
+        resp = requests.get(dashboard_url)
+        if resp.status_code == 200:
+            webbrowser.open_new_tab(dashboard_url)
+            ready = True
+        else:
+            sleep(1)
+    except:
+        value = True # Do nothing
