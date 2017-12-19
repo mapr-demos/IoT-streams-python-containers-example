@@ -76,7 +76,7 @@ def post_topic_message(
 	
     # Now send the HTTP POST request to the Kafka REST Gateway
     #credentials = {'username': 'user01', 'password': 'mapr'}
-    response = requests.post(url, json=payload, headers=headers, auth=('user01', 'mapr'), verify=False)
+    response = requests.post(url, json=payload, headers=headers, auth=(config.MAPR_KAFKA_REST_USER, config.MAPR_KAFKA_REST_PASSWORD), verify=False)
 
     return response
 
