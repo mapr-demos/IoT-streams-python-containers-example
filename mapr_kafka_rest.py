@@ -8,13 +8,29 @@ This allows users of this module to focus on the message and topic details.
 
 """
 
+import config   # for global variable config.master_offset
 import requests
 import json
+import warnings
+import urllib3
+warnings.simplefilter('ignore', urllib3.exceptions.SecurityWarning)
+
+# The above warnings.simplefilter(...) ignores the below errors until mapr-kafka-rest package fixes the SSL cert
+# Error 1:
+# ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:748)
+#
+# Error 2:
+# /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/urllib3/connection.py:344:
+# SubjectAltNameWarning: Certificate for maprdemo has no `subjectAltName`, falling back to check for a `commonName`
+# for now. This feature is being removed by major browsers and deprecated by RFC 2818.
+# (See https://github.com/shazow/urllib3/issues/497 for details.)
+#
+# See https://maprdrill.atlassian.net/browse/KAFKA-39
 
 def post_topic_message(
         a_mapr_topic,
         a_message,
-        a_kafka_rest_url = 'http://localhost:8082/topics/',
+        a_kafka_rest_url = config.MAPR_KAFKA_REST_URL,
         a_content_type   = 'application/vnd.kafka.json.v1+json' ) :
     """
 
@@ -25,12 +41,12 @@ def post_topic_message(
     --------------------
 
     a_mapr_topic     - the full name of the destination MapR Streams topic.  
-                       An example is:  '/apps/iot_stream:sensor_json'.
+                       An example is:  '/user/user01/iot_stream:sensor_data'.
 
     a_message        - the message to be published on a_mapr_topic
 
     a_kafka_rest_url - OPTIONAL - The URL of the Kafka REST gateway.
-                       The default value is: 'http://localhost:8082/topics/'.
+                       The default value is: 'http://maprdemo:8082/topics/'.
 
     a_content_type   - OPTIONAL - the content type of a_message.
                        The default value is: 'application/vnd.kafka.json.v1+json'.  
@@ -59,7 +75,8 @@ def post_topic_message(
     headers['Content-Type'] = a_content_type
 	
     # Now send the HTTP POST request to the Kafka REST Gateway
-    response = requests.post(url, json=payload, headers=headers)
+    #credentials = {'username': 'user01', 'password': 'mapr'}
+    response = requests.post(url, json=payload, headers=headers, auth=('user01', 'mapr'), verify=False)
 
     return response
 
@@ -71,10 +88,10 @@ def post_topic_message(
 #  that represents the topic message that was retrieved....
 ####################################################################################
 def get_topic_message(
-        a_mapr_topic_name = '/apps/iot_stream:sensor_json',
+        a_mapr_topic_name = config.MAPR_STREAM_PATH_TOPIC,
         a_topic_offset    = 0,
         a_topic_partition = 0,
-        a_kafka_rest_url  = 'http://localhost:8082/topics/',
+        a_kafka_rest_url  = config.MAPR_KAFKA_REST_URL,
         a_content_type    = 'application/vnd.kafka.json.v1+json' ) :
     """
 
@@ -92,7 +109,7 @@ def get_topic_message(
     a_topic_partition - the partion number - default value is 0
 
     a_kafka_rest_url  - OPTIONAL - the URL location of the MapR Kafka REST gateway.
-                        The default value is: 'http://localhost:8082/topics/'.
+                        The default value is: 'http://maprdemo:8082/topics/'.
 
     a_content_type    - OPTIONAL - the content type of the message.
                         The default value is: 'application/vnd.kafka.json.v1+json'
@@ -100,20 +117,21 @@ def get_topic_message(
     """
 # This is an example of a command line "GET" using the MapR Kafka REST gateway:	
 # curl -X GET -H "Accept: application/vnd.kafka.json.v1+json" /
-# "http://localhost:8082/topics/%2Fapps%2Fiot_stream%3Asensor_json/partitions/0/messages?offset=0&count=1"
+# "https://maprdemo:8082/topics/%2Fuser%2Fuser01%2Fiot_stream%3Asensor_data/partitions/0/messages?offset=0&count=1" /
+# -u "user01:mapr" --insecure
     
     # URL-Encode the topic name: / becomes %2F and : becomes %3A
     encoded_mapr_topic = a_mapr_topic_name.replace('/','%2F').replace(':','%3A')
 
     # Build the complete URL for the GET request 
     url = a_kafka_rest_url + encoded_mapr_topic + '/partitions/' + str(a_topic_partition) + '/messages'
-	
+
     payload = {'offset':a_topic_offset, 'count':1}    # get a single message only
  
-    req_headers={'Accept':a_content_type}
+    req_headers = {'Accept':a_content_type}
 
     # Now send the HTTP GET request to the Kafka REST Gateway
-    response = requests.get(url, params=payload, headers=req_headers)
+    response = requests.get(url, params=payload, headers=req_headers, auth=(config.MAPR_KAFKA_REST_USER, config.MAPR_KAFKA_REST_PASSWORD), verify=False)
 
     # Unwrap the message payload from the response
     message = {}
@@ -124,10 +142,11 @@ def get_topic_message(
         if (len(msg_list) > 0) :
             json_dict = msg_list[0]
             message = json_dict['value']
-    else :
-        print('*** Error *** in get_topic_message() : ' + str(response.status_code) )
-        print(response.url)
-        print(response.headers)
+    # TODO can uncomment this, but it is noisy.
+    # else:
+    #     print('*** Error *** in get_topic_message() : ' + str(response.status_code) )
+    #     print(response.url)
+    #     print(response.headers)
         
     return message
     

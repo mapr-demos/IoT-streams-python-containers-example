@@ -1,8 +1,4 @@
 import config   # for global variable config.master_offset
-import time 
-import json
-import random
-import sys
 import mapr_kafka_rest as mapr_kafka
 import matplotlib as mpl
 mpl.use('WebAgg')
@@ -196,15 +192,14 @@ plt.suptitle('Streaming Data Dashboard');
 plt.show()
 
 ready = False
-dashboard_url = 'http://localhost:8988'
-print('Waiting for dashboard to be ready... Dashboard UI should show up in a new tab of your browser at {url} in 30-60 seconds'.format(url=dashboard_url))
+print('Waiting for dashboard to be ready... Dashboard UI should show up in a new tab of your browser at {url} in 30-60 seconds'.format(url=config.MATPLOTLIB_DASHBOARD_URL))
 while not ready:
     try:
-        resp = requests.get(dashboard_url)
+        resp = requests.get(config.MATPLOTLIB_DASHBOARD_URL)
         if resp.status_code == 200:
-            webbrowser.open_new_tab(dashboard_url)
+            webbrowser.open_new_tab(config.MATPLOTLIB_DASHBOARD_URL)
             ready = True
         else:
             sleep(1)
-    except:
-        value = True # Do nothing
+    except Exception:
+        value = True  # Do nothing
