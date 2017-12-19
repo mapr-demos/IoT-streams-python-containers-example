@@ -110,10 +110,10 @@ def animate(i):
     # This will cause the subplots to "move" one x-value to the right
     # each time through this function.   
     try:
-        append_event_data(topic_name1, config.master_offset, xs1, ys1)
-        append_event_data(topic_name2, config.master_offset, xs2, ys2)
-        append_event_data(topic_name3, config.master_offset, xs3, ys3)
-        append_event_data(topic_name4, config.master_offset, xs4, ys4)
+        append_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_01, config.master_offset, xs1, ys1)
+        append_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_02, config.master_offset, xs2, ys2)
+        append_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_03, config.master_offset, xs3, ys3)
+        append_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_04, config.master_offset, xs4, ys4)
         #
         config.master_offset += 1
     except KeyError:
@@ -127,13 +127,13 @@ def animate(i):
     
     # Redraw the subplot titles, labels, etc.
     axes1.set_title('Sensor-01', color='black', fontsize=12)
-    axes1.set_ylabel('Alternator mAmps', color='black', fontsize=12)
+    axes1.set_ylabel(config.YAXIS_LABEL_SENSOR_01, color='black', fontsize=12)
     axes2.set_title('Sensor-02', color='green', fontsize=12)
-    axes2.set_ylabel('MPG', color='green', fontsize=12)
+    axes2.set_ylabel(config.YAXIS_LABEL_SENSOR_02, color='green', fontsize=12)
     axes3.set_title('Sensor-03', color='red', fontsize=12)
-    axes3.set_ylabel('Temp. Degrees F', color='red', fontsize=12)
+    axes3.set_ylabel(config.YAXIS_LABEL_SENSOR_03, color='red', fontsize=12)
     axes4.set_title('Sensor-04', color='blue', fontsize=12)
-    axes4.set_ylabel('Engine RPM', color='blue', fontsize=12)
+    axes4.set_ylabel(config.YAXIS_LABEL_SENSOR_04, color='blue', fontsize=12)
 
     # Plot the new data to be displayed
     axes1.plot(xs1,ys1,'black', label='Sensor-1')
@@ -141,26 +141,19 @@ def animate(i):
     axes3.plot(xs3,ys3,'red', label='Sensor-3')
     axes4.plot(xs4,ys4,'blue', label='Sensor-4')
 
-    
-# Set up some reusable values
-topic_name0 = '/user/user01/iot_stream:sensor_data'
-topic_name1 = '/user/user01/iot_stream:sensor_01' 
-topic_name2 = '/user/user01/iot_stream:sensor_02' 
-topic_name3 = '/user/user01/iot_stream:sensor_03' 
-topic_name4 = '/user/user01/iot_stream:sensor_04' 
-	
+
 # Data Init: use an offset of 0, and an event count of 10.
 # Consume the first 10 sensor events for sensor 1, "Alternator mAmps"
-xs1, ys1 = init_event_data(topic_name1, 0, 10)
+xs1, ys1 = init_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_01, 0, 10)
 
 # Consume the first 10 sensor events for sensor 2, "MPG"
-xs2, ys2 = init_event_data(topic_name2, 0, 10)
+xs2, ys2 = init_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_02, 0, 10)
 
 # Consume the first 10 sensor events for sensor 3, "Temperature Degrees F"
-xs3, ys3 = init_event_data(topic_name3, 0, 10)
+xs3, ys3 = init_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_03, 0, 10)
 
 # Consume the first 10 sensor events for sensor 4, "Engine RPM"
-xs4, ys4 = init_event_data(topic_name4, 0, 10)
+xs4, ys4 = init_event_data(config.MAPR_STREAM_TOPIC_PATH_DYNAMIC_04, 0, 10)
 
 
 style.use('fivethirtyeight')
@@ -170,19 +163,19 @@ fig = plt.figure()
 # Create a 2 row by 2 column grid and place 4 subplots on it.
 axes1 = plt.subplot2grid( (2,2), (0,0), rowspan=1, colspan=1)
 axes1.set_title('Sensor-01', color='black', fontsize=12)
-axes1.set_ylabel('Alternator mAmps', color='black', fontsize=12)
+axes1.set_ylabel(config.YAXIS_LABEL_SENSOR_01, color='black', fontsize=12)
 
 axes2 = plt.subplot2grid( (2,2), (0,1), rowspan=1, colspan=1)
 axes2.set_title('Sensor-02', color='green', fontsize=12)
-axes2.set_ylabel('MPG', color='green', fontsize=12)
+axes2.set_ylabel(config.YAXIS_LABEL_SENSOR_02, color='green', fontsize=12)
 
 axes3 = plt.subplot2grid( (2,2), (1,0), rowspan=1, colspan=1)
 axes3.set_title('Sensor-03', color='red', fontsize=12)
-axes3.set_ylabel('Temp. Degrees F', color='red', fontsize=12)
+axes3.set_ylabel(config.YAXIS_LABEL_SENSOR_03, color='red', fontsize=12)
 
 axes4 = plt.subplot2grid( (2,2), (1,1), rowspan=1, colspan=1)
 axes4.set_title('Sensor-04', color='blue', fontsize=12)
-axes4.set_ylabel('Engine RPM', color='blue', fontsize=12)
+axes4.set_ylabel(config.YAXIS_LABEL_SENSOR_04, color='blue', fontsize=12)
 
 plt.subplots_adjust(left=0.14, bottom=0.20, right=0.94, top=0.85, wspace=0.50, hspace=0.50)
    
