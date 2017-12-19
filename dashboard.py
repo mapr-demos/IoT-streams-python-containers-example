@@ -56,14 +56,14 @@ def init_event_data(a_topic_name, an_offset, a_count=10):
    for i in range(a_count):
       # Consume the next event from the given MapR topic...
       sensor_event = mapr_kafka.get_topic_message(a_topic_name, offset)
-      
-      x = int(sensor_event['x'])
-      y = int(sensor_event['value'])
-      print('Dashboard:DEBUG i: ' + str(i) + ' from topic: ' + a_topic_name + ' x: ' + sensor_event['x'] + ' y: ' + sensor_event['value'] + ' \n')
-      xs.append(x)
-      ys.append(y)
-      # go get the next event
-      offset += 1
+      if sensor_event:
+          x = int(sensor_event['x'])
+          y = int(sensor_event['value'])
+          print('Dashboard:DEBUG i: ' + str(i) + ' from topic: ' + a_topic_name + ' x: ' + sensor_event['x'] + ' y: ' + sensor_event['value'] + ' \n')
+          xs.append(x)
+          ys.append(y)
+          # go get the next event
+          offset += 1
    
    # initialize the master offset here?   
    master_offset = 10
@@ -82,18 +82,19 @@ def append_event_data(a_topic_name, an_offset, xlist, ylist):
    # Consume the next sensor event data from a topic.
    #---------------------------------------------------------
    sensor_event = mapr_kafka.get_topic_message(a_topic_name, an_offset)
-   
-   new_x = int(sensor_event['x'])
-   new_y = int(sensor_event['value'])
-   print('Dashboard:DEBUG: offset ' + str(an_offset) + ' from topic: ' + a_topic_name + ' x: ' + sensor_event['x'] + ' y: ' + sensor_event['value'] + ' \n')
 
-   # Add the newest data point on the right...
-   xlist.append(new_x)
-   ylist.append(new_y)
+   if sensor_event:
+       new_x = int(sensor_event['x'])
+       new_y = int(sensor_event['value'])
+       print('Dashboard:DEBUG: offset ' + str(an_offset) + ' from topic: ' + a_topic_name + ' x: ' + sensor_event['x'] + ' y: ' + sensor_event['value'] + ' \n')
 
-   # Delete the oldest data point on the given lists
-   del xlist[0]
-   del ylist[0]
+       # Add the newest data point on the right...
+       xlist.append(new_x)
+       ylist.append(new_y)
+
+       # Delete the oldest data point on the given lists
+       del xlist[0]
+       del ylist[0]
 
       
 
@@ -181,18 +182,7 @@ plt.subplots_adjust(left=0.14, bottom=0.20, right=0.94, top=0.85, wspace=0.50, h
    
 # Let the animation begin! 
 ani = animation.FuncAnimation(fig, animate, interval=50)
-plt.suptitle('Streaming Data Dashboard');
+plt.suptitle('Streaming Data Dashboard')
+print('Dashboard:DEBUG: Bringing up Dashboard UI at {url} in about 30-60 seconds.'.format(url=config.MATPLOTLIB_DASHBOARD_URL))
 plt.show()
 
-ready = False
-print('Waiting for dashboard to be ready... Dashboard UI should show up in a new tab of your browser at {url} in 30-60 seconds'.format(url=config.MATPLOTLIB_DASHBOARD_URL))
-while not ready:
-    try:
-        resp = requests.get(config.MATPLOTLIB_DASHBOARD_URL)
-        if resp.status_code == 200:
-            webbrowser.open_new_tab(config.MATPLOTLIB_DASHBOARD_URL)
-            ready = True
-        else:
-            sleep(1)
-    except Exception:
-        value = True  # Do nothing
