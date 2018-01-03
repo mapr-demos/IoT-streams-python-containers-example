@@ -1,6 +1,8 @@
 #!/bin/bash
 # filename: cleanStreamTopics.sh
 
+echo "Restart kafka-rest to clear up memory ..."
+maprcli node services -nodes maprdemo -name kafka-rest -action restart
 echo "Deleting the stream /user/user01/iot_stream ..."
 maprcli stream delete -path /user/user01/iot_stream
 echo "Stream deleted."
