@@ -13,7 +13,10 @@ import requests
 import json
 import warnings
 import urllib3
+import os
+
 warnings.simplefilter('ignore', urllib3.exceptions.SecurityWarning)
+KAFKA_REST_URL = os.environ.get('KAFKA_REST_URL', config.MAPR_KAFKA_REST_URL)
 
 # The above warnings.simplefilter(...) ignores the below errors until mapr-kafka-rest package fixes the SSL cert
 # Error 1:
@@ -30,7 +33,7 @@ warnings.simplefilter('ignore', urllib3.exceptions.SecurityWarning)
 def post_topic_message(
         a_mapr_topic,
         a_message,
-        a_kafka_rest_url=config.MAPR_KAFKA_REST_URL,
+        a_kafka_rest_url=KAFKA_REST_URL,
         a_content_type='application/vnd.kafka.json.v1+json'):
     """
 
@@ -92,7 +95,7 @@ def get_topic_message(
         a_mapr_topic_name = config.MAPR_STREAM_PATH_TOPIC,
         a_topic_offset    = 0,
         a_topic_partition = 0,
-        a_kafka_rest_url  = config.MAPR_KAFKA_REST_URL,
+        a_kafka_rest_url  = KAFKA_REST_URL,
         a_content_type    = 'application/vnd.kafka.json.v1+json' ) :
     """
 
@@ -158,7 +161,7 @@ def get_topic_messages(
         a_mapr_topic_name=config.MAPR_STREAM_PATH_TOPIC,
         a_topic_offset=0,
         a_topic_partition=0,
-        a_kafka_rest_url=config.MAPR_KAFKA_REST_URL,
+        a_kafka_rest_url=KAFKA_REST_URL,
         a_content_type='application/vnd.kafka.json.v1+json',
         a_count=10):
     """
