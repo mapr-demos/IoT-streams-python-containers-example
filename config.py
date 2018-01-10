@@ -21,10 +21,10 @@ YAXIS_LABEL_SENSOR_01 = 'Alternator mAmps'
 YAXIS_LABEL_SENSOR_02 = 'MPG'
 YAXIS_LABEL_SENSOR_03 = 'Temp. Degrees F'
 YAXIS_LABEL_SENSOR_04 = 'Engine RPM'
-MAPR_STREAM_TOPIC_NAME_DYNAMIC_01 = 'sensor01'
-MAPR_STREAM_TOPIC_NAME_DYNAMIC_02 = 'sensor02'
-MAPR_STREAM_TOPIC_NAME_DYNAMIC_03 = 'sensor03'
-MAPR_STREAM_TOPIC_NAME_DYNAMIC_04 = 'sensor04'
+MAPR_STREAM_TOPIC_NAME_DYNAMIC_01 = 'sensor_01'
+MAPR_STREAM_TOPIC_NAME_DYNAMIC_02 = 'sensor_02'
+MAPR_STREAM_TOPIC_NAME_DYNAMIC_03 = 'sensor_03'
+MAPR_STREAM_TOPIC_NAME_DYNAMIC_04 = 'sensor_04'
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_01 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
                                                              topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_01)
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_02 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
@@ -33,3 +33,8 @@ MAPR_STREAM_TOPIC_PATH_DYNAMIC_03 = '{stream_name}:{topic_name}'.format(stream_n
                                                              topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_03)
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_04 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
                                                              topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_04)
+LINE_COLOR_SENSOR_01='black'
+LINE_COLOR_SENSOR_02='green'
+LINE_COLOR_SENSOR_03='red'
+LINE_COLOR_SENSOR_04='blue'
+
