@@ -13,6 +13,7 @@ MAPR_KAFKA_REST_URL = "https://maprdemo:8082/topics/"
 MAPR_KAFKA_REST_USER = "user01"
 MAPR_KAFKA_REST_PASSWORD = "mapr"
 MATPLOTLIB_DASHBOARD_URL = "http://localhost:8988"
+BOKEH_DASHBOARD_URL = "http://localhost:5006"
 MAPR_STREAM_PATH = '/user/user01/iot_stream'
 MAPR_STREAM_TOPIC_NAME = 'sensor_data'
 MAPR_STREAM_PATH_TOPIC = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
@@ -26,15 +27,14 @@ MAPR_STREAM_TOPIC_NAME_DYNAMIC_02 = 'sensor_02'
 MAPR_STREAM_TOPIC_NAME_DYNAMIC_03 = 'sensor_03'
 MAPR_STREAM_TOPIC_NAME_DYNAMIC_04 = 'sensor_04'
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_01 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
-                                                             topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_01)
+                                                                        topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_01)
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_02 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
-                                                             topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_02)
+                                                                        topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_02)
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_03 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
-                                                             topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_03)
+                                                                        topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_03)
 MAPR_STREAM_TOPIC_PATH_DYNAMIC_04 = '{stream_name}:{topic_name}'.format(stream_name=MAPR_STREAM_PATH,
-                                                             topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_04)
-LINE_COLOR_SENSOR_01='black'
-LINE_COLOR_SENSOR_02='green'
-LINE_COLOR_SENSOR_03='red'
-LINE_COLOR_SENSOR_04='blue'
-
+                                                                        topic_name=MAPR_STREAM_TOPIC_NAME_DYNAMIC_04)
+LINE_COLOR_SENSOR_01 = 'black'
+LINE_COLOR_SENSOR_02 = 'green'
+LINE_COLOR_SENSOR_03 = 'red'
+LINE_COLOR_SENSOR_04 = 'blue'

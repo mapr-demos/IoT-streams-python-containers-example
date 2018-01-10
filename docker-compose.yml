@@ -3,21 +3,21 @@ version: '3'
 services:
   sensor01:
     build: .
-    command: python3 sw_sensor.py sensor_01 1 5000
+    command: python3 -u sw_sensor.py sensor_01 1 5000
   sensor02:
     build: .
-    command: python3 sw_sensor.py sensor_02 1 35
+    command: python3 -u sw_sensor.py sensor_02 1 35
   sensor03:
     build: .
-    command: python3 sw_sensor.py sensor_03 1 120
+    command: python3 -u sw_sensor.py sensor_03 1 120
   sensor04:
     build: .
-    command: python3 sw_sensor.py sensor_04 1 6500
+    command: python3 -u sw_sensor.py sensor_04 1 6500
   eventfilter:
     build: .
-    command: python3 event_filter.py
+    command: python3 -u event_filter.py
   dashboard:
     build: .
-    command: python3 dashboard.py
+    command: bokeh serve dashboard
     ports:
-      - "8988:8988"
+      - "5006:5006"
