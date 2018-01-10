@@ -29,6 +29,7 @@ if shutil.which('docker'):
 
                 try:
                     kafka_rest_url = '{base}{hostname}{suffix}'.format(base=config.MAPR_KAFKA_REST_URL_BASE, hostname=mapr_vm_or_ip, suffix=config.MAPR_KAFKA_REST_URL_SUFFIX)
+                    os.putenv('KAFKA_REST_URL', kafka_rest_url)
 
                     tn = Telnet(mapr_vm_or_ip, 8082)
                     tn.close()
@@ -55,7 +56,7 @@ if shutil.which('docker'):
                         else:
                             print("docker-compose build status: successful")
 
-                            cmd = 'docker-compose up -e KAFKA_REST_URL={kafka_rest_url}'.format(kafka_rest_url=kafka_rest_url)
+                            cmd = 'docker-compose up -d'
                             # cmd = 'docker-compose run -e KAFKA_REST_URL={kafka_rest_url} -p 5006:5006 -d dashboard > /dev/null'.format(
                             #     kafka_rest_url=kafka_rest_url)  # For easy Debugging
                             result = os.system(cmd)

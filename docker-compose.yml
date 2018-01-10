@@ -4,20 +4,32 @@ services:
   sensor01:
     build: .
     command: python3 -u sw_sensor.py sensor_01 1 5000
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
   sensor02:
     build: .
     command: python3 -u sw_sensor.py sensor_02 1 35
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
   sensor03:
     build: .
     command: python3 -u sw_sensor.py sensor_03 1 120
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
   sensor04:
     build: .
     command: python3 -u sw_sensor.py sensor_04 1 6500
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
   eventfilter:
     build: .
     command: python3 -u event_filter.py
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
   dashboard:
     build: .
     command: bokeh serve dashboard
+    environment:
+      - KAFKA_REST_URL=${KAFKA_REST_URL}
     ports:
       - "5006:5006"
