@@ -14,7 +14,7 @@ if shutil.which('docker'):
         if len(mapr_vm_or_ip) <= 0:
             print("ERROR: Your hostname or IP input of '{hostname}' is invalid. Please input a valid hostname or IP address.".format(hostname=mapr_vm_or_ip))
             exit(1)
-            
+
         else:
 
             cmd = 'ping -c 1 {hostname} > /dev/null'.format(hostname=mapr_vm_or_ip)
